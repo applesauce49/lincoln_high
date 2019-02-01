@@ -2,15 +2,39 @@ function mpmod(base, exponent, modulus) { if ((base < 1) || (exponent < 0) || (m
 
 ![](https://www.intel.com/etc/designs/intel/clientlibs/pages/commons-page/images/intel-logo-highres.png)
 
-> PowerMod Calculator
-> -------------------
-> 
-> Computes (base)(exponent) mod (modulus) in log(exponent) time.
-> 
-> Base: 
-> 
-> Exponent: 
-> 
-> Modulus: 
-> 
-> _b__e_ MOD _m_ =
+<blockquote>
+<h2>PowerMod Calculator</h2>
+Computes (base)<sup>(exponent)</sup> mod (modulus)
+in log(exponent) time.
+<p>
+
+<form name=powermod>
+<table border=1>
+<tr>
+<td>Base: 
+<input type=text value="" name=pmbase
+onChange="pmout.value='';"></td>
+<td>Exponent:
+<input type=text value="" name=pmexp
+onChange="pmout.value='';"></td>
+<td>Modulus:
+<input type=text value="" name=pmmod
+onChange="pmout.value='';"></td>
+</tr>
+<tr>
+<td>
+<input type=button value="Compute"
+onClick="pmout.value=mpmod(pmbase.value, pmexp.value, pmmod.value);">
+</td>
+<td align=right>
+<i>b</i><sup><i>e</i></sup> <font size=-1>MOD</font> <i>m</i> =
+</td>
+<td bgcolor=bbbbbb><input type=text value="" name=pmout
+onChange="pmout.value='';">
+</td>
+</tr>
+</table>
+</form>
+<p>
+</blockquote>
+<br>
