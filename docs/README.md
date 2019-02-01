@@ -1,7 +1,6 @@
 
 <!--function mpmod(base, exponent, modulus) { if ((base < 1) || (exponent < 0) || (modulus < 1)) { return("invalid"); } result = 1; while (exponent > 0) { if ((exponent % 2) == 1) { result = (result \* base) % modulus; } base = (base \* base) % modulus; exponent = Math.floor(exponent / 2); } return (result); } function eulerphi(x) { result = 0; for (i = 1; i < x; i++) { if (isunit(i,x)) { result++; } } return (result); } var doccolor="ff80ff"; function shadetd(alignment) { document.write("<td bgcolor="+doccolor+" align="+alignment+">");} -->
 
-<blockquote>
 <h2>PowerMod Calculator</h2>
 Computes (base)<sup>(exponent)</sup> mod (modulus)
 in log(exponent) time.
@@ -35,5 +34,3 @@ onChange="pmout.value='';">
 </table>
 </form>
 <p>
-</blockquote>
-<br>
