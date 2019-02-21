@@ -1,0 +1,120 @@
+<html>
+<head>
+<title>RSA Activity Utilities</title>
+
+<script language=JavaScript>
+  
+	function mpmod(base, exponent, modulus) {
+	  if ((base < 1) || (exponent < 0) || (modulus < 1)) {
+		return("invalid");
+	  }
+	  result = 1;
+	  while (exponent > 0) {
+		if ((exponent % 2) == 1) {
+		  result = (result * base) % modulus;
+		}
+		base = (base * base) % modulus;
+		exponent = Math.floor(exponent / 2);
+	  }
+	return (result);
+	}
+	
+	function eulerphi(x) {
+	  result = 0;
+	  for (i = 1; i < x; i++) {
+		if (isunit(i,x)) {
+		  result++;
+		}
+	  }
+	  return (result);
+	}
+	var doccolor="ff80ff";
+	function shadetd(alignment) {
+		document.write("<td bgcolor="+doccolor+" align="+alignment+">");}
+	</script>
+</head>
+<body>
+
+<nav style="background-color: 0071c5">
+	<h1 style="color:white">Activity Utilities</h1>
+</nav>
+<p>
+	
+<blockquote>
+<h2>PowerMod Calculator</h2>
+Computes (base)<sup>(exponent)</sup> mod (modulus)
+in log(exponent) time.
+<p>
+
+<form name=powermod>
+<table border=1>
+<tr>
+<td>Base: 
+<input type=text value="" name=pmbase
+onChange="pmout.value='';"></td>
+<td>Exponent:
+<input type=text value="" name=pmexp
+onChange="pmout.value='';"></td>
+<td>Modulus:
+<input type=text value="" name=pmmod
+onChange="pmout.value='';"></td>
+</tr>
+<tr>
+<td>
+<input type=button value="Compute"
+onClick="pmout.value=mpmod(pmbase.value, pmexp.value, pmmod.value);">
+</td>
+<td align=right>
+<i>b</i><sup><i>e</i></sup> <font size=-1>MOD</font> <i>m</i> =
+</td>
+<td bgcolor=bbbbbb><input type=text value="" name=pmout
+onChange="pmout.value='';">
+</td>
+</tr>
+</table>
+</form>
+<p>
+</blockquote>
+<br>
+
+<blockquote>
+<h2>Text Decoding Table</h2>
+<table border=1 width="1261"><tbody><tr style="background-color: #0f0f0f;"><td style="background-color: #0f0f0f; text-align: center;" width="80"><span style="color: #ffffff;">&nbsp;</span></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">`</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">A</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">B</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">C</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">D</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">E</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">F</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">G</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">H</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">I</span></p></td><td style="text-align: center;" width="85"><p style="text-align: center;"><span style="color: #ffffff;">J</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">K</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">L</span></p></td><td width="78"><p style="text-align: center;"><span style="color: #ffffff;">M</span></p></td></tr><tr><td style="background-color: #0f0f0f; text-align: center;" width="80"><p><span style="color: #ffffff;">1&nbsp;</span></p></td><td width="85"><p>0</p></td><td width="85"><p>1</p></td><td width="85"><p>2</p></td><td width="85"><p>3</p></td><td width="85"><p>4</p></td><td width="85"><p>5</p></td><td width="85"><p>6</p></td><td width="85"><p>7</p></td><td width="85"><p>8</p></td><td width="85"><p>9</p></td><td width="85"><p>10</p></td><td width="85"><p>11</p></td><td width="85"><p>12</p></td><td width="78"><p>13</p></td></tr><tr><td style="background-color: #0f0f0f; text-align: center;" width="80"><p><span style="color: #ffffff;">27</span></p></td><td width="85"><p>0</p></td><td width="85"><p>27</p></td><td width="85"><p>54</p></td><td width="85"><p>81</p></td><td width="85"><p>108</p></td><td width="85"><p>135</p></td><td width="85"><p>162</p></td><td width="85"><p>189</p></td><td width="85"><p>216</p></td><td width="85"><p>243</p></td><td width="85"><p>270</p></td><td width="85"><p>297</p></td><td width="85"><p>324</p></td><td width="78"><p>351</p></td></tr><tr><td style="background-color: #0f0f0f; text-align: center;" width="80"><p><span style="color: #ffffff;">729</span></p></td><td width="85"><p>0</p></td><td width="85"><p>729</p></td><td width="85"><p>1458</p></td><td width="85"><p>2187</p></td><td width="85"><p>2916</p></td><td width="85"><p>3645</p></td><td width="85"><p>4374</p></td><td width="85"><p>5103</p></td><td width="85"><p>5832</p></td><td width="85"><p>6561</p></td><td width="85"><p>7290</p></td><td width="85"><p>8019</p></td><td width="85"><p>8748</p></td><td width="78"><p>9477</p></td></tr><tr><td style="background-color: #0f0f0f; text-align: center;" width="80"><p><span style="color: #ffffff;">19683</span></p></td><td width="85"><p>0</p></td><td width="85"><p>19683</p></td><td width="85"><p>39366</p></td><td width="85"><p>59049</p></td><td width="85"><p>78732</p></td><td width="85"><p>98415</p></td><td width="85"><p>118098</p></td><td width="85"><p>137781</p></td><td width="85"><p>157464</p></td><td width="85"><p>177147</p></td><td width="85"><p>196830</p></td><td width="85"><p>216513</p></td><td width="85"><p>236196</p></td><td width="78"><p>255879</p></td></tr><tr><td style="background-color: #0f0f0f; text-align: center;" width="80"><p><span style="color: #ffffff;">531441</span></p></td><td width="85"><p>0</p></td><td width="85"><p>531441</p></td><td width="85"><p>1062882</p></td><td width="85"><p>1594323</p></td><td width="85"><p>2125764</p></td><td width="85"><p>2657205</p></td><td width="85"><p>3188646</p></td><td width="85"><p>3720087</p></td><td width="85"><p>4251528</p></td><td width="85"><p>4782969</p></td><td width="85"><p>5314410</p></td><td width="85"><p>5845851</p></td><td width="85"><p>6377292</p></td><td width="78"><p>6908733</p></td></tr></tbody></table>
+<br>
+<table border=1 width="1261"><tbody><tr style="background-color: #0f0f0f;"><td style="text-align: center;" width="80"><span style="color: #ffffff;">&nbsp;</span></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">N</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">O</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">P</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">Q</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">R</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">S</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">T</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">U</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">V</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">W</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">X</span></p></td><td style="text-align: center;" width="85"><p><span style="color: #ffffff;">Y</span></p></td><td style="text-align: center;" width="78"><p><span style="color: #ffffff;">Z</span></p></td></tr><tr><td style="background-color: #0f0f0f; text-align: center;" width="80"><p><span style="color: #ffffff;">1&nbsp;</span></p></td><td width="85"><p>14</p></td><td width="85"><p>15</p></td><td width="85"><p>16</p></td><td width="85"><p>17</p></td><td width="85"><p>18</p></td><td width="85"><p>19</p></td><td width="85"><p>20</p></td><td width="85"><p>21</p></td><td width="85"><p>22</p></td><td width="85"><p>23</p></td><td width="85"><p>24</p></td><td width="85"><p>25</p></td><td width="78"><p>26</p></td></tr><tr><td style="background-color: #0f0f0f; text-align: center;" width="80"><p><span style="color: #ffffff;">27</span></p></td><td width="85"><p>378</p></td><td width="85"><p>405</p></td><td width="85"><p>432</p></td><td width="85"><p>459</p></td><td width="85"><p>486</p></td><td width="85"><p>513</p></td><td width="85"><p>540</p></td><td width="85"><p>567</p></td><td width="85"><p>594</p></td><td width="85"><p>621</p></td><td width="85"><p>648</p></td><td width="85"><p>675</p></td><td width="78"><p>702</p></td></tr><tr><td style="background-color: #0f0f0f; text-align: center;" width="80"><p><span style="color: #ffffff;">729</span></p></td><td width="85"><p>10206</p></td><td width="85"><p>10935</p></td><td width="85"><p>11664</p></td><td width="85"><p>12393</p></td><td width="85"><p>13122</p></td><td width="85"><p>13851</p></td><td width="85"><p>14580</p></td><td width="85"><p>15309</p></td><td width="85"><p>16038</p></td><td width="85"><p>16767</p></td><td width="85"><p>17496</p></td><td width="85"><p>18225</p></td><td width="78"><p>18954</p></td></tr><tr><td style="background-color: #0f0f0f; text-align: center;" width="80"><p><span style="color: #ffffff;">19683</span></p></td><td width="85"><p>275562</p></td><td width="85"><p>295245</p></td><td width="85"><p>314928</p></td><td width="85"><p>334611</p></td><td width="85"><p>354294</p></td><td width="85"><p>373977</p></td><td width="85"><p>393660</p></td><td width="85"><p>413343</p></td><td width="85"><p>433026</p></td><td width="85"><p>452709</p></td><td width="85"><p>472392</p></td><td width="85"><p>492075</p></td><td width="78"><p>511758</p></td></tr><tr><td style="background-color: #0f0f0f; text-align: center;" width="80"><p><span style="color: #ffffff;">531441</span></p></td><td width="85"><p>7440174</p></td><td width="85"><p>7971615</p></td><td width="85"><p>8503056</p></td><td width="85"><p>9034497</p></td><td width="85"><p>9565938</p></td><td width="85"><p>10097379</p></td><td width="85"><p>10628820</p></td><td width="85"><p>11160261</p></td><td width="85"><p>11691702</p></td><td width="85"><p>12223143</p></td><td width="85"><p>12754584</p></td><td width="85"><p>13286025</p></td><td width="78"><p>13817466</p></td></tr></tbody></table>
+<br>
+<h3>How to use the table:</h3>
+<table width="1261">
+	<tbody>
+		<tr style="vertical-align: top; width:80%">
+			<td>
+				<b>Goal: Identify letters that map to your remaining value at each step/row.<br>When you are finished, you will have a remainder of 0.</b>
+				<ol>
+				<li >Find largest value less than encoded number of your word in a row.  The letter in that cell is the first letter of the word.</li>
+				<li>Subtract the value in the cell from your encoded number.</li>
+				<li>Find largest value less than the result of step two in the next row up the table.  This is the second letter of the word.</li>
+				<li>Subtract the value in the cell from result of step two.</li>
+				<li>Find largest value less than the result of step two in the next row up the table.  This is the next letter of the word.</li>
+				<li>Repeat steps 4 and 5 until you have a remainder of 0.</li>
+				</ol>
+			</td>
+			<td style="padding-left: 10px">
+				<b>Example:</b>
+				<br>Encoded value is 80060<br>
+				<ol>
+				<li>Find largest value less than 80060 in the "19683" row: Column 4 = 78732.  This is “D”.</li>
+				<li>Subtract the value in the cell from 80060: This results in 1328.</li>
+				<li>Find largest value less than 1328 in the “729” row: Column 1 = 729.  This is “A”.</li>
+				<li>Subtract the value in the cell from 1328. This results in 599.</li>
+				<li>Find largest value less than 599 in the “27” row: Column 22 = 594.  This is “V”.</li>
+				<li>Subtract the value in the cell from 599. This results in 5.</li>
+				<li>Find the letter that 5 is associated with in the “1” row.  This is “E”.</li>
+				</ol>
+				The result is “DAVE”.<br>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</blockquote>
+</body>
+</html>
