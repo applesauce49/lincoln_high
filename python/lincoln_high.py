@@ -192,10 +192,20 @@ class word_list():
          
     
     def word_in_words(self, w):
-        return w in self.__words
+        is_present = w in self.__words
+        ret = (is_present, "")
+        if is_present:
+            ret = (is_present, self.__enc.encode_and_encrypt(w))
+        
+        return ret
     
     def ct_in_ciphertexts(self, ct):
-        return ct in self.__cts
+        is_present = ct in self.__cts
+        ret = (is_present, "")
+        if is_present:
+            ret = (is_present, self.__enc.decrypt_and_decode(ct))
+        
+        return ret
     
     
 #### Example usage
@@ -214,3 +224,16 @@ class word_list():
 
 # wl.print_ciphertext_list()
 # wl.write_ciphertext_list("ciphertext.txt")
+
+# w = "echo"
+# (is_pres, ct) = wl.word_in_words(w)
+# if is_pres:
+#    print("ciphertext = ", ct)
+#    (is_pres, dt) = wl.ct_in_ciphertexts(ct)
+#    if is_pres:
+#        print(dt)
+#    else:
+#        print(ct, "not in ciphertext list.")
+# else:
+#    print(w, "not in word list.")
+
