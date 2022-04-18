@@ -318,7 +318,7 @@ namespace Intel.PSD.CryptoExtensions
 
         static void PrintUsage()
         {
-            Console.WriteLine("Usage: lincoln-high <E | D> <words>. Use 'E' to encrypt, 'D' to decrypt.");
+            Console.WriteLine("Usage: rsa-util.exe <E | D> <words>. Use 'E' to encrypt, 'D' to decrypt.");
             Console.WriteLine();
             Console.WriteLine("Up to " + MAX_WORDS.ToString() + " words may be encrypted/decrypted per call.");
             Console.WriteLine();
