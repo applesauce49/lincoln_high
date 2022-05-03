@@ -32,7 +32,7 @@ class rsa_encrypter():
         """"pre-condition: n is a nonnegative integer
         post-condition: return True if n is prime and False otherwise."""
         if n < 2: 
-             return False;
+             return False
         if n % 2 == 0:             
             return n == 2  # return False
         k = 3
@@ -45,7 +45,7 @@ class rsa_encrypter():
     def __euler_phi(self, n):
         y = n
         for i in range(2,n+1):
-            if self.__is_prime(i) and n % i  == 0 :
+            if self.__is_prime(i) and n % i  == 0:
                 y -= y/i
             else:
                 continue
@@ -92,32 +92,17 @@ class word_encoder():
         return digits[::-1]
 
     def decode(self, i):
-        digits = self.__to_digits(i);
+        digits = self.__to_digits(i)
         return ''.join([chr(d + self.__asciiShift) for d in digits])
     
 
-# Word encode and encrypt / decrypt and decode
-class word_encrypter():
-    def __init__(self, p, q, e):
+# The word list with associated ciphertexts along with some verification, query, and extraction routines.    
+class word_list():
+    def __init__(self, p = 1163, q = 1601, e = 3):
         self.__rsa = rsa_encrypter(p, q, e)
         self.__enc = word_encoder()
     
-    def encode_and_encrypt(self, w): 
-        return self.__enc.decode(self.__rsa.encrypt(self.__enc.encode(w)))
-    
-    def decrypt_and_decode(self, w): 
-        return self.__enc.decode(self.__rsa.decrypt(self.__enc.encode(w)))
-    
-    def verify_word(self, ew, dw, words): 
-        return (self.decrypt_and_decode(ew) == dw) and (dw in words)
-    
-    
-# The word list with associated ciphertexts along with some verification, query, and extraction routines.    
-class word_list():
-    
-    
-    def __init__(self, p, q, e):
-        self.__enc = word_encrypter(p, q, e)
+        #self.__enc = word_encrypter(p, q, e)
         self.__words = ["snit", "hype", "jock", "dude", "labs", "funk", "nosy", 
                         "bomb", "math", "dare", "eeew", "prob", "foul", "tizz", "meow", 
                         "bark", "ditz", "dump", "goop", "guts", "lads", "gals", "icky", 
@@ -154,24 +139,33 @@ class word_list():
 
         self.__words.sort()
             
-        self.__cts = [self.__enc.encode_and_encrypt(w) for w in self.__words]
+        self.__cts = [self.encode_and_encrypt(w) for w in self.__words]
     
-    def verify_word(self, ew, dw):
-        return self.__enc.verify_word(ew, dw, self.__words)
-        
+    def encode_and_encrypt(self, w): 
+        return self.__enc.decode(self.__rsa.encrypt(self.__enc.encode(w)))
+    
+    def decrypt_and_decode(self, w): 
+        return self.__enc.decode(self.__rsa.decrypt(self.__enc.encode(w)))
+    
+    def verify_word(self, ew, dw): 
+        return (self.decrypt_and_decode(ew) == dw) and (dw in self.__words)
+       
     def verify_word_list(self):
         print("Word list is duplicate free: ", len(list(dict.fromkeys(self.__words))) == len(self.__words))
 
         print("Word count: ", len(self.__words))
         
-        dts = [self.__enc.decrypt_and_decode(ct) for ct in self.__cts]
+        dts = [self.decrypt_and_decode(ct) for ct in self.__cts]
         print("Decryptions successful: ", dts == self.__words)
 
 
         matched = utils.foldl(operator.and_, 
                         True, 
                         [
-                            self.verify_word(self.__cts[i], self.__words[i]) for i in range(0, len(self.__words))
+                            self.verify_word(   self.__cts[i], 
+                                                self.__words[i]) for i in range(0, 
+                                                                            len(self.__words)
+                                                                            )
                         ]
                        )
         print("Lists match: ", matched)
@@ -191,49 +185,42 @@ class word_list():
             [f.write(ct + "\n\n") for ct in self.__cts]
          
     
-    def word_in_words(self, w):
+    def verify_encrypt(self, w):
         is_present = w in self.__words
-        ret = (is_present, "")
-        if is_present:
-            ret = (is_present, self.__enc.encode_and_encrypt(w))
+        enc = self.__enc.encode(w)
+        ct = self.__rsa.encrypt(enc)
+        dec = self.__enc.decode(ct)
+        return (is_present, enc, ct, dec)
         
-        return ret
-    
-    def ct_in_ciphertexts(self, ct):
+    def verify_decrypt(self, ct):
         is_present = ct in self.__cts
-        ret = (is_present, "")
-        if is_present:
-            ret = (is_present, self.__enc.decrypt_and_decode(ct))
+        enc = self.__enc.encode(ct)
+        pt = self.__rsa.decrypt(enc)
+        dec = self.__enc.decode(pt)
+        return (is_present, enc, pt, dec)
         
-        return ret
-    
+    def ve(self, w):
+        (is_present, enc, ct, dec) = self.verify_encrypt(w)
+        print("Is present: %s, plaintext: %s, encoding: %d, encryption: %d, decoding: %s."%(is_present, w, enc, ct, dec))
+
+    def vd(self, ct):
+        (is_present, enc, pt, dec) = self.verify_decrypt(ct)
+        print("Is present: %s, ciphertext: %s, encoding: %d, decryption: %d, decoding: %s."%(is_present, ct, enc, pt, dec))
+
     
 #### Example usage
 # import lincoln_high
-# import operator
-
+# These are now the defaults in the word_list ctor.
 # [p, q, e] = [1163, 1601, 3]
 
-# wl = lincoln_high.word_list(p, q, e)
+# wl = lincoln_high.word_list()
 
 # wl.verify_word_list()
 
-# print(wl.word_in_words("yolk"))
-# print(wl.ct_in_ciphertexts("buywu"))
+# wl.ve("yolk")
+# wl.vd("buywu")
 
 
 # wl.print_ciphertext_list()
 # wl.write_ciphertext_list("ciphertext.txt")
-
-# w = "echo"
-# (is_pres, ct) = wl.word_in_words(w)
-# if is_pres:
-#    print("ciphertext = ", ct)
-#    (is_pres, dt) = wl.ct_in_ciphertexts(ct)
-#    if is_pres:
-#        print(dt)
-#    else:
-#        print(ct, "not in ciphertext list.")
-# else:
-#    print(w, "not in word list.")
-
+####
