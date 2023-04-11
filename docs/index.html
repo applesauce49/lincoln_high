@@ -316,30 +316,25 @@ onChange="pmout.value='';">
 			<td>
 				<b>Goal: Identify letters that map to your remaining value at each step/row.<br>When you are finished, you will have a remainder of 0.</b>
 				<ol>
-				<li >Find largest value less than encoded number of your word in a row.  The letter in that cell is the first letter of the word.</li>
+				<li >Find largest value less than encoded number of your word in a column.  The letter in that row is the first letter of the word.</li>
 				<li>Subtract the value in the cell from your encoded number.</li>
-				<li>Find largest value less than the result of step two in the next row up the table.  This is the second letter of the word.</li>
+				<li>Find largest value less than the result of step two in the next column in the table.  This is the second letter of the word.</li>
 				<li>Subtract the value in the cell from result of step two.</li>
-				<li>Find largest value less than the result of step two in the next row up the table.  This is the next letter of the word.</li>
+				<li>Find largest value less than the result of step two in the next column in the table.  This is the next letter of the word.</li>
 				<li>Repeat steps 4 and 5 until you have a remainder of 0.</li>
 				</ol>
 			</td>
-			<td>
-				<b>Decode Steps</b>
-			</td>
-		</tr>
-		<tr style="vertical-align: top; width:100%">
 			<td style="padding-left: 10px">
 				<b>Example:</b>
 				<br>Encoded value is 80060<br>
 				<ol>
-				<li>Find largest value less than 80060 in the "19683" row: Column 4 = 78732.  This is “D”.</li>
-				<li>Subtract the value in the cell from 80060: This results in 1328.</li>
-				<li>Find largest value less than 1328 in the “729” row: Column 1 = 729.  This is “A”.</li>
-				<li>Subtract the value in the cell from 1328. This results in 599.</li>
-				<li>Find largest value less than 599 in the “27” row: Column 22 = 594.  This is “V”.</li>
-				<li>Subtract the value in the cell from 599. This results in 5.</li>
-				<li>Find the letter that 5 is associated with in the “1” row.  This is “E”.</li>
+				<li>Find largest value less than 80060 in 4th column: 78732.  This is “D”.</li>
+				<li>Subtract the value 78732 from 80060: This results in 1328.</li>
+				<li>Find largest value less than 1328 in 3rd column: 729.  This is “A”.</li>
+				<li>Subtract the value 729 from 1328. This results in 599.</li>
+				<li>Find largest value less than 599 in the 2nd column: 594.  This is “V”.</li>
+				<li>Subtract the value 594 from 599. This results in 5.</li>
+				<li>Find the letter that 5 is associated with in the 1st column:  This is “E”.</li>
 				</ol>
 				The result is “DAVE”.<br>
 			</td>
