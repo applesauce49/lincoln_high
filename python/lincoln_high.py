@@ -1,8 +1,10 @@
 # Module to support Lincoln High RSA encryption game.
-
+import sys
 import functools
 import operator
-import random
+
+from enum import Enum
+# import random
 
 class utils():
     # Generalized left fold.
@@ -142,7 +144,8 @@ class word_list():
         self.__cts = [self.encode_and_encrypt(w) for w in self.__words]
     
     def encode_and_encrypt(self, w): 
-        return self.__enc.decode(self.__rsa.encrypt(self.__enc.encode(w)))
+        undecoded_ct = self.__rsa.encrypt(self.__enc.encode(w))
+        return (undecoded_ct, self.__enc.decode(undecoded_ct))
     
     def decrypt_and_decode(self, w): 
         return self.__enc.decode(self.__rsa.decrypt(self.__enc.encode(w)))
@@ -155,14 +158,14 @@ class word_list():
 
         print("Word count: ", len(self.__words))
         
-        dts = [self.decrypt_and_decode(ct) for ct in self.__cts]
+        dts = [self.decrypt_and_decode(ct[1]) for ct in self.__cts]
         print("Decryptions successful: ", dts == self.__words)
 
 
         matched = utils.foldl(operator.and_, 
                         True, 
                         [
-                            self.verify_word(   self.__cts[i], 
+                            self.verify_word(   self.__cts[i][1], 
                                                 self.__words[i]) for i in range(0, 
                                                                             len(self.__words)
                                                                             )
@@ -182,7 +185,7 @@ class word_list():
     
     def write_ciphertext_list(self, filepath):
          with open(filepath, 'w') as f:
-            [f.write(ct + "\n\n") for ct in self.__cts]
+            [f.write(str(ct) + "\n\n") for ct in self.__cts]
          
     
     def verify_encrypt(self, w):
@@ -193,7 +196,8 @@ class word_list():
         return (is_present, enc, ct, dec)
         
     def verify_decrypt(self, ct):
-        is_present = ct in self.__cts
+        cts = [ct[1] for ct in self.__cts]
+        is_present = ct in cts
         enc = self.__enc.encode(ct)
         pt = self.__rsa.decrypt(enc)
         dec = self.__enc.decode(pt)
@@ -208,19 +212,59 @@ class word_list():
         print("Is present: %s, ciphertext: %s, encoding: %d, decryption: %d, decoding: %s."%(is_present, ct, enc, pt, dec))
 
     
+def print_usage_and_exit():
+    print("Usage: python lincoln_high.py <E|D> <word>")
+    exit(1)
+
+class Action(Enum):
+    Encrypt = 1
+    Decrypt = 2
+
+    @classmethod
+    def from_str(cls, str):
+        s = str.upper()
+        if s == "E":
+            return Action.Encrypt
+        elif s == "D":
+            return Action.Decrypt
+        else:
+            raise Exception("Invalid action.")
+
+
+def parse_command_line(args):
+    action_str = args[1]
+    word = args[2]
+    return (Action.from_str(action_str), word)
+
+# Main execution here.
+if __name__ == "__main__":
+
 #### Example usage
 # import lincoln_high
 # These are now the defaults in the word_list ctor.
 # [p, q, e] = [1163, 1601, 3]
 
-# wl = lincoln_high.word_list()
+    args = sys.argv
 
-# wl.verify_word_list()
+    if len(args) != 3:
+        print_usage_and_exit()
 
-# wl.ve("yolk")
-# wl.vd("buywu")
+    try:
+        (action, word) = parse_command_line(args)
 
+        wl = word_list()
 
-# wl.print_ciphertext_list()
-# wl.write_ciphertext_list("ciphertext.txt")
-####
+        if action == Action.Encrypt:
+            wl.ve(word)
+        else:
+            wl.vd(word)
+
+        # wl.verify_word_list()
+
+    except Exception as e:
+        print("Error: ", e)
+        print_usage_and_exit()
+
+    # wl.print_ciphertext_list()
+    
+    # wl.write_ciphertext_list("ciphertext.txt")
