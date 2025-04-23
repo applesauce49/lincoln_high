@@ -239,6 +239,8 @@ def parse_command_line(args):
 # Main execution here.
 if __name__ == "__main__":
 
+# TODO: Make this interactive.
+
 #### Example usage
 # import lincoln_high
 # These are now the defaults in the word_list ctor.
